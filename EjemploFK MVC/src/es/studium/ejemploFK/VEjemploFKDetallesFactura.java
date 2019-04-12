@@ -62,7 +62,7 @@ public class VEjemploFKDetallesFactura extends JFrame
 	public VEjemploFKDetallesFactura() {
 		setTitle("Detalles Factura");
 		setSize(400,400);
-		setVisible(true);
+//		setVisible(true);
 		
 		pnlSup.setLayout(new GridLayout(4,2));
 		pnlSup.add(lblFactura);

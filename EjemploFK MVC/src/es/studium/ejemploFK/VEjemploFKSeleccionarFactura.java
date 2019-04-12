@@ -18,7 +18,7 @@ public class VEjemploFKSeleccionarFactura extends JFrame
 	JLabel lblFecha=new JLabel("Fecha Factura:");
 	JTextField txtFecha=new JTextField(8);
 	JLabel lblCliente=new JLabel("Clietne:");
-	Choice choCliente=new Choice();
+	static Choice choCliente=new Choice();
 	
 	JButton btnSiguiente=new JButton("Siguiente");
 	JButton btnCancelar=new JButton("Cancelar");
@@ -37,7 +37,7 @@ public class VEjemploFKSeleccionarFactura extends JFrame
 	
 		setTitle("Seleccionar factura");
 		setSize(300,200);
-		setVisible(true);
+//		setVisible(true);
 		
 		pnlSup.setLayout(new GridLayout(2,2));
 		pnlSup.add(lblFecha);

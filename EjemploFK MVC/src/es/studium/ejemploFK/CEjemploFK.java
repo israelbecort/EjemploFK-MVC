@@ -6,19 +6,74 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class CEjemploFK implements WindowListener, ActionListener, KeyListener
 {
+//	VEjemploFKSeleccionarFactura vejemplofkseleccionarfactura =new VEjemploFKSeleccionarFactura();
+//	VEjemploFKDetallesFactura vejemplofkdetallesfactura =new VEjemploFKDetallesFactura();
+	
 	VEjemploFK objVistaEjemploFK=null;
 	VEjemploFKSeleccionarFactura objVistaEjemploFKSeleccionarFactura=null;
-	public CEjemploFK(VEjemploFK objVista) {
+	VEjemploFKDetallesFactura objVEjemploFKDetallesFactura=null;
+	public CEjemploFK(VEjemploFK objVistaEjemploFK, VEjemploFKSeleccionarFactura objVistaSeleccionar,VEjemploFKDetallesFactura objVEjemploFKDetallesFactura) {
 		
-		this.objVistaEjemploFK = objVista;
+		this.objVistaEjemploFK = objVistaEjemploFK;
+		this.objVistaEjemploFKSeleccionarFactura=objVistaSeleccionar;
+		this.objVEjemploFKDetallesFactura=objVEjemploFKDetallesFactura;
 		
-		objVista.btnAltaFactura.addActionListener(this);
-		objVista.addWindowListener(this); 
+		objVistaEjemploFK.btnAltaFactura.addActionListener(this);
+		objVistaEjemploFK.addWindowListener(this); 
+		objVistaSeleccionar.btnSiguiente.addActionListener(this);
+		objVistaSeleccionar.addWindowListener(this);
+		objVistaSeleccionar.btnCancelar.addActionListener(this);
+		objVistaSeleccionar.addWindowListener(this);
 		
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/ejemplofk?autoReconnect=true&useSSL=false";
+		String login = "root";
+		String password = "Studium2018;";
+		Statement statement = null;
+		ResultSet rs = null;
+		Connection connection = null;
+		
+		try
+		{
+			Class.forName(driver);
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println("Se ha producido un error al cargar el Driver");
+		}
+		//ESTABLECER CONEXION CON BASE DE DATOS
+		try
+		{
+			connection = DriverManager.getConnection(url, login, password);
+		}
+		catch(SQLException e)
+		{
+			System.out.println("Se produjo un error al conectar a la Base de Datos");
+		}
+		//PREPARAR EL STATEMENT
+		try
+		{
+			statement=connection.createStatement();
+			rs=statement.executeQuery("SELECT * FROM clientes");
+			objVistaSeleccionar.choCliente.add("Elige uno...");
+			while (rs.next())
+			{
+				objVistaSeleccionar.choCliente.add(rs.getString("nombreCliente"));
+			}
+		}
+		catch(SQLException e)
+		{
+			System.out.println("Error en la sentencia SQL");
+		}
 	}
 
 	@Override
@@ -48,7 +103,7 @@ public class CEjemploFK implements WindowListener, ActionListener, KeyListener
 		if(objVistaEjemploFK.btnAltaFactura.equals(arg0.getSource())) {
 			try {
 				objVistaEjemploFK.setVisible(false);
-				new VEjemploFKSeleccionarFactura();
+				objVistaEjemploFKSeleccionarFactura.setVisible(true);
 				/*String contador= null;
 				String str=null;
 				int res=0;
@@ -60,6 +115,22 @@ public class CEjemploFK implements WindowListener, ActionListener, KeyListener
 					
 			}catch(Exception e) {
 				e.printStackTrace(); 
+			}
+		}
+		if(objVistaEjemploFKSeleccionarFactura.btnSiguiente.equals(arg0.getSource())){
+			try {
+				objVistaEjemploFKSeleccionarFactura.setVisible(false);
+				objVEjemploFKDetallesFactura.setVisible(true);
+					
+			}catch(Exception a) {
+				a.printStackTrace(); 
+			}
+		}else if(objVistaEjemploFKSeleccionarFactura.btnCancelar.equals(arg0.getSource())) {
+			try {
+				objVistaEjemploFKSeleccionarFactura.setVisible(false);
+					
+			}catch(Exception a) {
+				a.printStackTrace(); 
 			}
 		}
 		
