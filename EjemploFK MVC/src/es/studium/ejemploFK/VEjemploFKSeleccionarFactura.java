@@ -30,7 +30,7 @@ public class VEjemploFKSeleccionarFactura extends JFrame
 	int dia=fecha.get(Calendar.DAY_OF_MONTH);
 	int mes=fecha.get(Calendar.MONTH)+1;
 	int anio=fecha.get(Calendar.YEAR);
-	String fechaHoy=(dia+"/"+mes+"/"+anio);
+	String fechaHoy=(String.format("%02d", dia)+"/"+String.format("%02d", mes)+"/"+anio);
 	
 	
 	public VEjemploFKSeleccionarFactura() {
